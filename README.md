@@ -1,6 +1,6 @@
 # Türkiye Cumhuriye Merkez Bankası Döviz Kur API
 
-```
+```php
 $apiUrl = 'https://evds2.tcmb.gov.tr/service/evds/';
 $apiKey = '...';
 
