@@ -52,8 +52,8 @@ final class CurrencyRateResultSet implements CurrencyRateResultSetInterface
         {
             $currencyRate = new CurrencyRate();
             $currencyRate->code = $code;
-            $currencyRate->buying = $item['A'];
-            $currencyRate->selling = $item['S'];
+            $currencyRate->buying = $item['A'] ?? 0;
+            $currencyRate->selling = $item['S'] ?? 0;
             $currencyRate->time = $this->time;
 
             $this->data[$code] = $currencyRate;

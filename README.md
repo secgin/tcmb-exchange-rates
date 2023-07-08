@@ -1,5 +1,9 @@
 # Türkiye Cumhuriye Merkez Bankası Döviz Kur API
 
+```
+composer require secgin/tcmb-exchange-rates
+```
+
 ```php
 $apiUrl = 'https://evds2.tcmb.gov.tr/service/evds/';
 $apiKey = '...';
