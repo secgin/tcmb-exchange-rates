@@ -1,4 +1,4 @@
-# Türkiye Cumhuriye Merkez Bankası Döviz Kur API
+# Türkiye Cumhuriyeti Merkez Bankası Döviz Kur API
 
 ```
 composer require secgin/tcmb-exchange-rates
@@ -19,4 +19,4 @@ $rates = $result->getRates();
 $rate = $result->getRate('USD');
 ```
 
-> **_NOT:_** Geriye CurencyRate sınıfı dönüyor. Bu sınıf içerisinde alış, satış ve zaman değerileri bulunmatadır.
+> **_NOT:_** Geriye CurencyRate sınıfı dönüyor. Bu sınıf içerisinde alış, satış ve zaman değerileri bulunmaktadır.
