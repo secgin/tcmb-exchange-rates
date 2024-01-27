@@ -8,10 +8,28 @@ final class CurrencyRateResultSet implements CurrencyRateResultSetInterface
 
     private string $time;
 
-    public function __construct(?object $result)
+    private function __construct()
     {
+    }
+
+    public static function createByApi(?object $result): CurrencyRateResultSet
+    {
+        $resultSet = new CurrencyRateResultSet();
+
         if ($result != null)
-            $this->prepareData($result);
+            $resultSet->prepareDataByApiResult($result);
+
+        return $resultSet;
+    }
+
+    public static function createByXml(?array $data): CurrencyRateResultSet
+    {
+        $resultSet = new CurrencyRateResultSet();
+
+        if ($data != null)
+            $resultSet->prepareDataByXml($data);;
+
+        return $resultSet;
     }
 
     public function getTime(): string
@@ -32,7 +50,7 @@ final class CurrencyRateResultSet implements CurrencyRateResultSetInterface
         return null;
     }
 
-    private function prepareData(object $result): void
+    private function prepareDataByApiResult(object $result): void
     {
         $item = $result->items[0];
         $this->time = gmdate('Y.m-d H:i:s', $item->UNIXTIME->{'$numberLong'} ?? 0);
@@ -58,6 +76,22 @@ final class CurrencyRateResultSet implements CurrencyRateResultSetInterface
             $currencyRate->time = $this->time;
 
             $this->data[$code] = $currencyRate;
+        }
+    }
+
+    private function prepareDataByXml(array $data): void
+    {
+        $this->time = $data['date'];
+
+        foreach ($data['rates'] as $currency)
+        {
+            $currencyRate = new CurrencyRate();
+            $currencyRate->code = $currency['code'];
+            $currencyRate->buying = $currency['buying'];
+            $currencyRate->selling = $currency['selling'];
+            $currencyRate->time = $currency['time'];
+
+            $this->data[$currency['code']] = $currencyRate;
         }
     }
 }

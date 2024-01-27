@@ -27,4 +27,43 @@ final class Request
 
         return json_decode($result);
     }
+
+    public function getByXML(array $currencies): ?array
+    {
+        $response = simplexml_load_file("https://www.tcmb.gov.tr/kurlar/today.xml");
+        if ($response === false)
+            return null;
+
+        $result = [];
+
+        $date = (string)$response->attributes()->Tarih;
+        $time = $date != ''
+            ? date('Y-m-d', strtotime($date))
+            : '';
+
+        $result['date'] = $time;
+
+
+        $rates = [];
+        foreach ($response->Currency as $item)
+        {
+            $currencyCode = (string)$item->attributes()->CurrencyCode;
+
+            if (!in_array($currencyCode, $currencies))
+                continue;
+
+            $buying = (float)$item->ForexBuying;
+            $selling = (float)$item->ForexSelling;
+
+            $rates[] = [
+                'code' => $currencyCode,
+                'buying' => $buying,
+                'selling' => $selling,
+                'time' => $time
+            ];
+        }
+        $result['rates'] = $rates;
+
+        return $result;
+    }
 }
