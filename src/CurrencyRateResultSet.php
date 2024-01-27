@@ -8,9 +8,10 @@ final class CurrencyRateResultSet implements CurrencyRateResultSetInterface
 
     private string $time;
 
-    public function __construct(object $result)
+    public function __construct(?object $result)
     {
-        $this->prepareData($result);
+        if ($result != null)
+            $this->prepareData($result);
     }
 
     public function getTime(): string
